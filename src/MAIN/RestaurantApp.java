@@ -34,6 +34,6 @@ public class RestaurantApp {
         System.out.println("Your total: $" + order.getTotalPrice());
         orderService.placeOrder(order);
 
-        System.out.println("✅ Order saved in database. Thank you!");
+        System.out.println("Order saved in database. Thank you!");
     }
 }

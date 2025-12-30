@@ -1,0 +1,14 @@
+src/
+ ├── MAIN/
+ │    └── RestaurantApp.java
+ ├── MODEL/
+ │    ├── Order.java
+ │    ├── OrderItem.java
+ │    └── Menu.java
+ ├── DAO/
+ │    ├── OrderDAO.java
+ │    └── MenuDAO.java
+ ├── SERVICES/
+ │    └── OrderService.java
+ └── db/
+      └── DBConnectionManager.java

@@ -1,5 +1,6 @@
 package DAO;
 import MODEL.Menu;
+import db.DBConnectionManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,21 +11,10 @@ import java.util.Properties;
 import static java.sql.DriverManager.getConnection;
 
 public class MenuDAO {
-    private static Properties props;
-
-    static {
-        props = new Properties();
-        try {
-            props.load(new FileInputStream("application.properties"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private final Connection con = DBConnectionManager.getConnection();
 
     private ArrayList<Menu> menuItems = new ArrayList<>();
-    private final String URL = props.getProperty("URL");
-    private final String username = props.getProperty("USERNAME");
-    private final String password = props.getProperty("PASSWORD");
+
     public MenuDAO() throws SQLException {
         menuItems.add(new Menu("NewYork pizza",16.50));
         menuItems.add(new Menu("Chicago pizza",18.00));
@@ -38,8 +28,7 @@ public class MenuDAO {
     }
     public void InsertIntoDB() throws Exception {
         String query1="insert into menu_items (name, price) values(?,?)";
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection con = getConnection(URL,username,password);
+        Class.forName("com.mysql.cj.jdbc.Driver");
         PreparedStatement ps = con.prepareStatement(query1);
         for(Menu item:menuItems){
             ps.setString(1, item.getName());
@@ -49,8 +38,7 @@ public class MenuDAO {
     }
     public void showMenu() throws Exception{
         String query1="SELECT * from menu_items";
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection con = getConnection(URL,username,password);
+        Class.forName("com.mysql.cj.jdbc.Driver");
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(query1);
         System.out.println("\n=== Menu ===");
@@ -69,7 +57,6 @@ public class MenuDAO {
     public void deleteMenu() throws ClassNotFoundException, SQLException {
         String query1="TRUNCATE TABLE menu_items";
         Class.forName("com.mysql.jdbc.Driver");
-        Connection con = getConnection(URL,username,password);
         Statement st = con.createStatement();
         st.executeUpdate(query1);
     }
