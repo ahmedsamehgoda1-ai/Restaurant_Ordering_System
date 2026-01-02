@@ -13,7 +13,7 @@ public class DBConnectionManager {
     static {
         props = new Properties();
         try {
-            props.load(new FileInputStream("application.properties"));
+            props.load(new FileInputStream("User.properties"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
