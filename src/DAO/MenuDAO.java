@@ -28,7 +28,7 @@ public class MenuDAO {
     }
     public void InsertIntoDB() throws Exception {
         String query1="insert into menu_items (name, price) values(?,?)";
-        Class.forName("com.mysql.cj.jdbc.Driver");
+
         PreparedStatement ps = con.prepareStatement(query1);
         for(Menu item:menuItems){
             ps.setString(1, item.getName());
@@ -38,7 +38,6 @@ public class MenuDAO {
     }
     public void showMenu() throws Exception{
         String query1="SELECT * from menu_items";
-        Class.forName("com.mysql.cj.jdbc.Driver");
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(query1);
         System.out.println("\n=== Menu ===");
@@ -56,7 +55,6 @@ public class MenuDAO {
     }
     public void deleteMenu() throws ClassNotFoundException, SQLException {
         String query1="TRUNCATE TABLE menu_items";
-        Class.forName("com.mysql.jdbc.Driver");
         Statement st = con.createStatement();
         st.executeUpdate(query1);
     }

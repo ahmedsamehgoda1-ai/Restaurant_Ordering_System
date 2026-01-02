@@ -14,8 +14,8 @@ public class Order  {
         orderItemList.add(Item);
         finalprice=finalprice+Item.getPrice();
     }
-    public Order(int id){
-        this.id=id;
+    public Order(){
+
     }
     ///
     public List<OrderItem> getOrderItemList() {

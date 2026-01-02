@@ -17,30 +17,32 @@ public class OrderDAO{
 
     public void insertOrder(Order order) throws Exception {
 
-    String query1 = "insert into orders (id, totalprice) values(?,?)";
+    String query1 = "insert into orders (totalprice) values(?)";
     String query2 = "insert into orderitems (order_id, order_price, order_quantity) values(?,?,?)";
-    Class.forName("com.mysql.jdbc.Driver");
-    PreparedStatement pst = con.prepareStatement(query1);
-    pst.setInt(1, order.getid());
-    pst.setDouble(2, order.getTotalPrice());
-    PreparedStatement pst2 = con.prepareStatement(query2);
-    for(OrderItem orderitem:order.getOrderItemList()) {
-            pst2.setInt(1, order.getid());
-            pst2.setDouble(2, orderitem.getPrice());
-            pst2.setInt(3, orderitem.getQuantity());
-            pst2.addBatch();
-        }
+
         try {
+            PreparedStatement pst = con.prepareStatement(query1,Statement.RETURN_GENERATED_KEYS);
+            pst.setDouble(1, order.getTotalPrice());
             pst.executeUpdate();
+            ResultSet rs = pst.getGeneratedKeys();
+            rs.next();
+            int orderId = rs.getInt(1);
+            PreparedStatement pst2 = con.prepareStatement(query2);
+            for(OrderItem orderitem:order.getOrderItemList()) {
+                pst2.setInt(1, orderId);
+                pst2.setDouble(2, orderitem.getPrice());
+                pst2.setInt(3, orderitem.getQuantity());
+                pst2.addBatch();
+            }
+
             pst2.executeBatch();
-            con.commit();
             System.out.println("Order inserted successfully");
-        } catch (Exception e) {
-            con.rollback();
+        } catch (SQLException e) {
             throw e;
         } finally {
-            con.close(); // always close connection
+            con.close();
         }
+
 
 
 }

@@ -17,7 +17,7 @@ public class RestaurantApp {
             System.out.println((i + 1) + ". " + menuItems.get(i).getName() + " - $" + menuItems.get(i).getPrice());
         }
 
-        Order order = new Order((int) (Math.random() * 10000));
+        Order order = new Order();
 
         while (true) {
             System.out.print("\nEnter item number to add (0 to finish): ");
